@@ -1,0 +1,58 @@
+apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+kind: Cluster
+metadata:
+  name: release-i-09dde-aa583ea
+  namespace: default
+spec:
+  bundlesRef:
+    apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+    name: bundles-16
+    namespace: eksa-system
+  clusterNetwork:
+    cniConfig:
+      cilium: {}
+    pods:
+      cidrBlocks:
+      - 192.168.0.0/16
+    services:
+      cidrBlocks:
+      - 10.96.0.0/12
+  controlPlaneConfiguration:
+    count: 1
+  datacenterRef:
+    kind: DockerDatacenterConfig
+    name: release-i-09dde-aa583ea
+  externalEtcdConfiguration:
+    count: 1
+  gitOpsRef:
+    kind: FluxConfig
+    name: eksa-test
+  kubernetesVersion: "1.23"
+  managementCluster:
+    name: release-i-09dde-aa583ea
+  workerNodeGroupConfigurations:
+  - count: 1
+    name: md-0
+
+---
+apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+kind: DockerDatacenterConfig
+metadata:
+  name: release-i-09dde-aa583ea
+  namespace: default
+spec: {}
+
+---
+apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+kind: FluxConfig
+metadata:
+  name: eksa-test
+  namespace: default
+spec:
+  branch: aws-staging-eks-a-test-dd76d7e5-a646-404d-af35-0cbd38a47916-16
+  clusterConfigPath: aws-staging-eks-a-test-dd76d7e5-a646-404d-af35-0cbd38a47916-16
+  git:
+    repositoryUrl: ssh://git@github.com/that-jetpack-guy/aws-staging-eks-a-test-dd76d7e5-a646-404d-af35-0cbd38a47916-16.git
+  systemNamespace: default
+
+---
